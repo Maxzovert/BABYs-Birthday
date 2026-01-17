@@ -37,13 +37,13 @@ const HeroSection = () => {
       ))}
 
       {/* Main content */}
-      <div className="relative z-10 text-center px-4">
+      <div className="relative z-10 text-center px-4 py-8">
         {/* Bow decoration */}
         <motion.div
           initial={{ scale: 0, rotate: -20 }}
           animate={{ scale: 1, rotate: 0 }}
           transition={{ delay: 0.3, type: "spring", stiffness: 200 }}
-          className="mb-8"
+          className="mb-6"
         >
           <span className="text-8xl">🎀</span>
         </motion.div>
@@ -51,9 +51,9 @@ const HeroSection = () => {
         {/* Main title */}
         <motion.h1
           initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
+          animate={{ opacity: 1, y: -10 }}
           transition={{ delay: 0.5, duration: 0.8 }}
-          className="text-5xl md:text-7xl lg:text-8xl font-pacifico text-gradient-romantic mb-6 leading-tight"
+          className="text-5xl md:text-7xl lg:text-8xl font-pacifico text-gradient-romantic mb-12 leading-normal py-2 -mt-4"
         >
           Happy Birthday
         </motion.h1>
@@ -62,7 +62,7 @@ const HeroSection = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.8, duration: 0.8 }}
-          className="text-4xl md:text-6xl font-dancing text-foreground mb-8"
+          className="text-4xl md:text-6xl font-dancing text-foreground mb-8 mt-8"
         >
           My Baby 💕
         </motion.h2>

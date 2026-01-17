@@ -19,6 +19,7 @@ const photos = [
 
 const PhotoGallery = () => {
   const [selectedPhoto, setSelectedPhoto] = useState<number | null>(null);
+  const [revealedPhotos, setRevealedPhotos] = useState<Set<number>>(new Set());
 
   return (
     <section className="py-20 px-4 bg-gradient-dreamy">
@@ -46,27 +47,50 @@ const PhotoGallery = () => {
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
               whileHover={{ rotate: [-1, 1, -1], scale: 1.05 }}
-              onClick={() => setSelectedPhoto(photo.id)}
+              onClick={() => {
+                if (!revealedPhotos.has(photo.id)) {
+                  setRevealedPhotos(prev => new Set([...prev, photo.id]));
+                }
+                setSelectedPhoto(photo.id);
+              }}
               className="cursor-pointer group"
             >
               {/* Polaroid style frame */}
               <div className="bg-white p-3 pb-12 rounded-lg shadow-dreamy transition-all duration-300 group-hover:shadow-glow">
                 {/* Photo area */}
                 <div className="aspect-square rounded-sm relative overflow-hidden">
-                  <img 
-                    src={photo.src} 
-                    alt={photo.caption}
-                    className="w-full h-full object-cover"
-                  />
+                  {revealedPhotos.has(photo.id) ? (
+                    <img 
+                      src={photo.src} 
+                      alt={photo.caption}
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <div className="w-full h-full bg-gradient-to-br from-kawaii-blush to-kawaii-lavender flex items-center justify-center relative">
+                      <motion.div
+                        initial={{ scale: 1 }}
+                        whileHover={{ scale: 1.1 }}
+                        className="text-6xl"
+                      >
+                        🔒
+                      </motion.div>
+                      <div className="absolute inset-0 backdrop-blur-md bg-foreground/30" />
+                      <div className="absolute inset-0 flex items-center justify-center z-10">
+                        <p className="font-dancing text-xl text-white/90">Click to reveal 💕</p>
+                      </div>
+                    </div>
+                  )}
                   
-                  {/* Hover overlay */}
-                  <motion.div
-                    initial={{ opacity: 0 }}
-                    whileHover={{ opacity: 1 }}
-                    className="absolute inset-0 bg-primary/20 flex items-center justify-center"
-                  >
-                    <Heart className="w-12 h-12 text-white fill-white" />
-                  </motion.div>
+                  {/* Hover overlay - only show if revealed */}
+                  {revealedPhotos.has(photo.id) && (
+                    <motion.div
+                      initial={{ opacity: 0 }}
+                      whileHover={{ opacity: 1 }}
+                      className="absolute inset-0 bg-primary/20 flex items-center justify-center"
+                    >
+                      <Heart className="w-12 h-12 text-white fill-white" />
+                    </motion.div>
+                  )}
                 </div>
 
                 {/* Caption area */}
